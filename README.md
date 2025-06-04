@@ -1,3 +1,6 @@
+> [!TIP]
+> Ce fork est identique à la version originale, à la seule différence que la variable sera basé sur la BNF et ne nécessitera pas (de ma part) de modification à chaque mise à jour.
+
 # ophirofox-userscript
 Génère automatiquement un userscript à chaque release d'une nouvelle version d'ophirofox
 
