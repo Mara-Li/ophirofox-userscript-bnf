@@ -111,6 +111,8 @@
 // @include https://nouveau-europresse-com.ehesp.idm.oclc.org/*
 // @include https://nouveau.europresse.com/access/ip/default.aspx?un=lausanneAT_1
 // @include https://nouveau-eureka-cc.ezproxy.biblioottawalibrary.ca/*
+// @include https://nouveau-europresse-com.ville-geneve.idm.oclc.org/*
+// @include https://nouveau-europresse-com.kedge.idm.oclc.org/*
 // @include https://www.lemonde.fr/*
 // @include https://www.liberation.fr/*
 // @include https://next.liberation.fr/*
@@ -176,6 +178,7 @@
 // @include https://www.leberry.fr/*
 // @include https://www.economist.com/*
 // @include https://www.lanouvellerepublique.fr/*
+// @include https://www.lagazettedescommunes.com/*
 //
 // @run-at      document-start
 //
@@ -342,14 +345,17 @@
         "name": "INSA Lyon",
         "AUTH_URL": "https://docelec.insa-lyon.fr/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=INSAT_3"
     }, {
-        "name": "École des Ponts ParisTech",
-        "AUTH_URL": "https://extranet.enpc.fr/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=umiv"
+        "name": "Ecole nationale des ponts et chaussées - Institut Polytechnique de Paris",
+        "AUTH_URL": "https://extranet.enpc.fr/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=U033137T_12"
     }, {
         "name": "INSA Rennes",
         "AUTH_URL": "http://rproxy.insa-rennes.fr/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=INSAT_1"
     }, {
         "name": "La Rochelle Université",
         "AUTH_URL": "https://gutenberg.univ-lr.fr/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=ROCHELLET_1"
+    }, {
+        "name": "Kedge Business School",
+        "AUTH_URL": "https://kedge.idm.oclc.org/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=KEDGET_1"
     }, {
         "name": "Le Mans Université",
         "AUTH_URL": "https://login.doc-elec.univ-lemans.fr/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=U031524T_1"
@@ -365,6 +371,9 @@
     }, {
         "name": "Lycée la Martinière Diderot",
         "AUTH_URL": "https://idp-auth.gar.education.fr/domaineGar?idENT=QzAw&idEtab=MDY5MDAzN1I=&idRessource=ark%3A%2F57800%2Feuropresse-cision"
+    }, {
+        "name": "Médiathèque de Boulogne-Billancourt",
+        "AUTH_URL": "https://mediatheques.boulognebillancourt.com/ASSARedirect.ashx?url=https%3A%2F%2Fnouveau.europresse.com%2Faccess%2Fhttpref%2Fdefault.aspx%3Fun%3DU032145U_2"
     }, {
         "name": "Médiathèque de Télécom SudParis & Institut Mines-Télécom Business School",
         "AUTH_URL": "http://mediaproxy.imtbs-tsp.eu/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=U033137T_8"
@@ -392,7 +401,7 @@
         "AUTH_URL": "https://buadistant.univ-angers.fr/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=BUANGERST_1"
     }, {
         "name": "Université des Antilles",
-        "AUTH_URL": "http://bu-services.univ-antilles.fr:5000/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=ANTILLEST_1"
+        "AUTH_URL": "https://go.openathens.net/redirector/univ-antilles.fr?url=https://nouveau.europresse.com/access/ip/default.aspx?un=ANTILLEST_1"
     }, {
         "name": "Université d'Artois",
         "AUTH_URL": "http://ezproxy.univ-artois.fr/login?url=https://nouveau.europresse.com/access/ip/default.aspx?un=littoralT_1"
@@ -654,6 +663,13 @@
         "name": "Médiathèques d'Antony (92)",
         "HTTP_REFERER": "https://mediatheque.ville-antony.fr/",
         "AUTH_URL": "https://nouveau.europresse.com/access/httpref/default.aspx?un=antonyU_2"
+    }, {
+        "name": "Bibliothèque Ville de Genève",
+        "AUTH_URL": "https://ville-geneve.idm.oclc.org/login?&url=https://nouveau.europresse.com/access/ip/default.aspx?un=U033084T_1"
+    }, {
+        "name": "Médiathèques de Rennes Métropole",
+        "HTTP_REFERER": "https://www.lesmediatheques-rennesmetropole.fr/",
+        "AUTH_URL": "https://nouveau.europresse.com/access/httpref/default.aspx?un=CARMU_2"
     }];
 
     function getOphirofoxConfigByName(search_name) {
@@ -827,7 +843,9 @@
         match(hostname, "https://nouveau.europresse.com/access/ip/default.aspx?un=CENTRALENANTEST_1") ||
         match(hostname, "https://nouveau-europresse-com.ehesp.idm.oclc.org/*") ||
         match(hostname, "https://nouveau.europresse.com/access/ip/default.aspx?un=lausanneAT_1") ||
-        match(hostname, "https://nouveau-eureka-cc.ezproxy.biblioottawalibrary.ca/*")) {
+        match(hostname, "https://nouveau-eureka-cc.ezproxy.biblioottawalibrary.ca/*") ||
+        match(hostname, "https://nouveau-europresse-com.ville-geneve.idm.oclc.org/*") ||
+        match(hostname, "https://nouveau-europresse-com.kedge.idm.oclc.org/*")) {
 
         function removeMarkElements() {
             // Remove all the <mark> elements, but keep their contents
@@ -1062,11 +1080,6 @@
                     .getAttribute("content");
             }
 
-            /**
-             * Crée un lien vers Europresse avec les keywords donnés
-             * @param {string} publishedTime - article publication date (2024-01-01)
-             * @returns {Promise<HTMLAnchorElement>}
-             */
             async function createLink(publishedTime) {
                 const a = await ophirofoxEuropresseLink(extractKeywords(), {
                     publishedTime: publishedTime
@@ -1075,74 +1088,63 @@
             }
 
             function findPremiumBanner() {
-                const anchor = document.querySelector('div[class^=article-body-paywall]');
-                if (!anchor) {
-                    return;
-                }
-                return anchor;
+                return document.querySelector('div[class^=article-body-paywall]') || null;
             }
 
-            async function onLoad(premiumBanner) {
-                /*
-                  The UI is reactive (and DOM rewritten), so we need to wait for some nodes to be rewritten to the DOM
-                  before we can add our link. It seems that the React components are added to the DOM in a particular order.
+            function findInsertionPoint() {
+                const target = 'Réservé aux abonnés'.normalize('NFC');
+                const el = [...document.querySelectorAll('span')].find(
+                    s => s.textContent.normalize('NFC').trim() === target
+                );
+                return el?.parentElement ?? null;
+            }
 
-                  With heavy loading, the MutationObserver execution is too late, and only catch .dossier-feed class.
-                  After caching, we can rely on the .article-body-paywall added node.
+            async function injectLink(publishedDate) {
+                if (document.querySelector('div[class^=article-body-paywall] + a.ophirofox-europresse')) return;
+                const anchor = findInsertionPoint();
+                if (!anchor) return;
+                const link = await createLink(publishedDate);
+                anchor.after(link);
+                console.log('Ophirofox injected');
+            }
 
-                  Weird choices for a nearly-static content-driven website with SEO concerns.
-                */
+            function resolvePublishedDate() {
+                let publishedDate = document.querySelector(
+                    "meta[property='article:published_time'], meta[property='og:article:published_time'], meta[property='date:published_time']"
+                )?.getAttribute("content") || '';
+
+                const fusionMetadata = document.getElementById('fusion-metadata');
+                if (fusionMetadata?.textContent) {
+                    const match = /"first_publish_date":"(\d{4}-\d{2}-\d{2}[A-Z]+\d{2}:\d{2}:\d{2}\.[0-9+-:]+Z)"/.exec(fusionMetadata.textContent);
+                    if (match) {
+                        const firstPublishedDateInstance = new Date(match[1]);
+                        if (!isNaN(firstPublishedDateInstance)) {
+                            if (!publishedDate.trim() || firstPublishedDateInstance < new Date(publishedDate)) {
+                                publishedDate = match[1];
+                            }
+                        }
+                    } else {
+                        console.error("No match for 'first_publish_date' found.");
+                    }
+                } else {
+                    console.error("'fusion-metadata' element not found or empty.");
+                }
+
+                return publishedDate;
+            }
+
+            async function onLoad() {
                 const observer = new MutationObserver(async mutationsList => {
                     for (let mutation of mutationsList) {
                         if (mutation.addedNodes.length > 0) {
                             const addedNode = mutation.addedNodes[0];
-                            if (addedNode.classList.contains('dossier-feed') ||
+                            if (
+                                addedNode.classList.contains('dossier-feed') ||
                                 addedNode.classList.contains('article-body-paywall')
                             ) {
                                 observer.disconnect();
-
-                                // Not sure if premiumBanner is (and will be) still valid after DOM rewrite
-                                if (!document.querySelector('div[class^=article-body-paywall] + a.ophirofox-europresse')) {
-                                    // See #239, Libération replaces date:published_time with the date of edit, which means that a search limited by the time of publication may be too restrictive
-                                    // We need to specify the date to use for the generic ophirofoxEuropresseLink function
-                                    // Might need refactor if other medias have the same problem, more properties for fail-safe
-                                    let publishedDate = document.querySelector("meta[property='article:published_time'], meta[property='og:article:published_time'], meta[property='date:published_time']")?.getAttribute("content") || '';
-
-                                    let firstPublishedDate = null;
-                                    let firstPublishedDateInstance = null;
-
-                                    let fusionMetadata = document.getElementById('fusion-metadata');
-                                    if (fusionMetadata && fusionMetadata.textContent) {
-                                        let match = /"first_publish_date":"(\d{4}-\d{2}-\d{2}[A-Z]+\d{2}:\d{2}:\d{2}\.[0-9+-:]+Z)"/.exec(fusionMetadata.textContent); // 2024-08-27T18:18:55.663Z => UTC
-                                        if (match) {
-                                            firstPublishedDate = match[1];
-                                            firstPublishedDateInstance = new Date(firstPublishedDate);
-                                        } else {
-                                            console.error("No match for 'first_publish_date' found.");
-                                        }
-                                    } else {
-                                        console.error("'fusion-metadata' element not found or empty.");
-                                    }
-
-                                    // Check if publishedDate exists and is not empty
-                                    if (publishedDate && publishedDate.trim()) {
-                                        // If the first published date is valid and older
-                                        if (firstPublishedDateInstance && !isNaN(firstPublishedDateInstance) && (firstPublishedDateInstance < new Date(publishedDate))) {
-                                            publishedDate = firstPublishedDate;
-                                        }
-                                    } else {
-                                        // If published date is empty or invalid, use firstPublishedDate if available
-                                        if (firstPublishedDateInstance && !isNaN(firstPublishedDateInstance)) {
-                                            publishedDate = firstPublishedDate;
-                                        }
-                                    }
-
-                                    const link = await createLink(publishedDate);
-                                    document.querySelector('h1').after(link);
-
-                                    console.log('Ophirofox injected after React DOM rewrite');
-                                    break;
-                                }
+                                await injectLink(resolvePublishedDate());
+                                break;
                             }
                         }
                     }
@@ -1153,32 +1155,45 @@
                 });
             }
 
-            createLink().then(link => {
-                const premiumBanner = findPremiumBanner();
-                if (premiumBanner) {
-                    premiumBanner.after(link);
-                    console.log('Ophirofox injected');
+            (async () => {
+                if (findPremiumBanner()) {
+                    await injectLink(resolvePublishedDate());
                 }
-                onLoad(premiumBanner);
-            });
+                onLoad();
+            })();
         });
 
         pasteStyle(`
         .ophirofox-europresse {
             font-size: 0.875rem;
-            padding: 5px 10px; 
             background-color: rgb(250, 235, 29);
+            font-family: TiemposText;
             color: #000;
             border-radius: 4px;
             text-decoration: none;
-            display: block;
-            margin-top: -2rem; /* negative margin to pull it up next to h1 */
-            margin-left: auto; /* pushes to right if there's space */
             width: fit-content;
+            display: flex;
+            float: left;
+            padding: 0px 5px 0px 5px;
+            margin-right: 0.75rem;
+            row-gap: 4px;
+            column-gap: 4px;
+            height: 1.5rem;
+            padding-top: 0px;
+            padding-right: 4px;
+            -webkit-box-align: center;
+            align-items: center;
+            background-color: rgb(250, 235, 29);
+            width: max-content;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
         }
         
         .ophirofox-europresse:hover {
-            color: #666666;
+            text-decoration: underline;
+            color: #000;
         }
         `);
     }
@@ -1192,11 +1207,6 @@
                     .getAttribute("content");
             }
 
-            /**
-             * Crée un lien vers Europresse avec les keywords donnés
-             * @param {string} publishedTime - article publication date (2024-01-01)
-             * @returns {Promise<HTMLAnchorElement>}
-             */
             async function createLink(publishedTime) {
                 const a = await ophirofoxEuropresseLink(extractKeywords(), {
                     publishedTime: publishedTime
@@ -1205,74 +1215,63 @@
             }
 
             function findPremiumBanner() {
-                const anchor = document.querySelector('div[class^=article-body-paywall]');
-                if (!anchor) {
-                    return;
-                }
-                return anchor;
+                return document.querySelector('div[class^=article-body-paywall]') || null;
             }
 
-            async function onLoad(premiumBanner) {
-                /*
-                  The UI is reactive (and DOM rewritten), so we need to wait for some nodes to be rewritten to the DOM
-                  before we can add our link. It seems that the React components are added to the DOM in a particular order.
+            function findInsertionPoint() {
+                const target = 'Réservé aux abonnés'.normalize('NFC');
+                const el = [...document.querySelectorAll('span')].find(
+                    s => s.textContent.normalize('NFC').trim() === target
+                );
+                return el?.parentElement ?? null;
+            }
 
-                  With heavy loading, the MutationObserver execution is too late, and only catch .dossier-feed class.
-                  After caching, we can rely on the .article-body-paywall added node.
+            async function injectLink(publishedDate) {
+                if (document.querySelector('div[class^=article-body-paywall] + a.ophirofox-europresse')) return;
+                const anchor = findInsertionPoint();
+                if (!anchor) return;
+                const link = await createLink(publishedDate);
+                anchor.after(link);
+                console.log('Ophirofox injected');
+            }
 
-                  Weird choices for a nearly-static content-driven website with SEO concerns.
-                */
+            function resolvePublishedDate() {
+                let publishedDate = document.querySelector(
+                    "meta[property='article:published_time'], meta[property='og:article:published_time'], meta[property='date:published_time']"
+                )?.getAttribute("content") || '';
+
+                const fusionMetadata = document.getElementById('fusion-metadata');
+                if (fusionMetadata?.textContent) {
+                    const match = /"first_publish_date":"(\d{4}-\d{2}-\d{2}[A-Z]+\d{2}:\d{2}:\d{2}\.[0-9+-:]+Z)"/.exec(fusionMetadata.textContent);
+                    if (match) {
+                        const firstPublishedDateInstance = new Date(match[1]);
+                        if (!isNaN(firstPublishedDateInstance)) {
+                            if (!publishedDate.trim() || firstPublishedDateInstance < new Date(publishedDate)) {
+                                publishedDate = match[1];
+                            }
+                        }
+                    } else {
+                        console.error("No match for 'first_publish_date' found.");
+                    }
+                } else {
+                    console.error("'fusion-metadata' element not found or empty.");
+                }
+
+                return publishedDate;
+            }
+
+            async function onLoad() {
                 const observer = new MutationObserver(async mutationsList => {
                     for (let mutation of mutationsList) {
                         if (mutation.addedNodes.length > 0) {
                             const addedNode = mutation.addedNodes[0];
-                            if (addedNode.classList.contains('dossier-feed') ||
+                            if (
+                                addedNode.classList.contains('dossier-feed') ||
                                 addedNode.classList.contains('article-body-paywall')
                             ) {
                                 observer.disconnect();
-
-                                // Not sure if premiumBanner is (and will be) still valid after DOM rewrite
-                                if (!document.querySelector('div[class^=article-body-paywall] + a.ophirofox-europresse')) {
-                                    // See #239, Libération replaces date:published_time with the date of edit, which means that a search limited by the time of publication may be too restrictive
-                                    // We need to specify the date to use for the generic ophirofoxEuropresseLink function
-                                    // Might need refactor if other medias have the same problem, more properties for fail-safe
-                                    let publishedDate = document.querySelector("meta[property='article:published_time'], meta[property='og:article:published_time'], meta[property='date:published_time']")?.getAttribute("content") || '';
-
-                                    let firstPublishedDate = null;
-                                    let firstPublishedDateInstance = null;
-
-                                    let fusionMetadata = document.getElementById('fusion-metadata');
-                                    if (fusionMetadata && fusionMetadata.textContent) {
-                                        let match = /"first_publish_date":"(\d{4}-\d{2}-\d{2}[A-Z]+\d{2}:\d{2}:\d{2}\.[0-9+-:]+Z)"/.exec(fusionMetadata.textContent); // 2024-08-27T18:18:55.663Z => UTC
-                                        if (match) {
-                                            firstPublishedDate = match[1];
-                                            firstPublishedDateInstance = new Date(firstPublishedDate);
-                                        } else {
-                                            console.error("No match for 'first_publish_date' found.");
-                                        }
-                                    } else {
-                                        console.error("'fusion-metadata' element not found or empty.");
-                                    }
-
-                                    // Check if publishedDate exists and is not empty
-                                    if (publishedDate && publishedDate.trim()) {
-                                        // If the first published date is valid and older
-                                        if (firstPublishedDateInstance && !isNaN(firstPublishedDateInstance) && (firstPublishedDateInstance < new Date(publishedDate))) {
-                                            publishedDate = firstPublishedDate;
-                                        }
-                                    } else {
-                                        // If published date is empty or invalid, use firstPublishedDate if available
-                                        if (firstPublishedDateInstance && !isNaN(firstPublishedDateInstance)) {
-                                            publishedDate = firstPublishedDate;
-                                        }
-                                    }
-
-                                    const link = await createLink(publishedDate);
-                                    document.querySelector('h1').after(link);
-
-                                    console.log('Ophirofox injected after React DOM rewrite');
-                                    break;
-                                }
+                                await injectLink(resolvePublishedDate());
+                                break;
                             }
                         }
                     }
@@ -1283,32 +1282,45 @@
                 });
             }
 
-            createLink().then(link => {
-                const premiumBanner = findPremiumBanner();
-                if (premiumBanner) {
-                    premiumBanner.after(link);
-                    console.log('Ophirofox injected');
+            (async () => {
+                if (findPremiumBanner()) {
+                    await injectLink(resolvePublishedDate());
                 }
-                onLoad(premiumBanner);
-            });
+                onLoad();
+            })();
         });
 
         pasteStyle(`
         .ophirofox-europresse {
             font-size: 0.875rem;
-            padding: 5px 10px; 
             background-color: rgb(250, 235, 29);
+            font-family: TiemposText;
             color: #000;
             border-radius: 4px;
             text-decoration: none;
-            display: block;
-            margin-top: -2rem; /* negative margin to pull it up next to h1 */
-            margin-left: auto; /* pushes to right if there's space */
             width: fit-content;
+            display: flex;
+            float: left;
+            padding: 0px 5px 0px 5px;
+            margin-right: 0.75rem;
+            row-gap: 4px;
+            column-gap: 4px;
+            height: 1.5rem;
+            padding-top: 0px;
+            padding-right: 4px;
+            -webkit-box-align: center;
+            align-items: center;
+            background-color: rgb(250, 235, 29);
+            width: max-content;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
         }
         
         .ophirofox-europresse:hover {
-            color: #666666;
+            text-decoration: underline;
+            color: #000;
         }
         `);
     }
@@ -1587,30 +1599,24 @@
 
         window.addEventListener("load", function(event) {
             function extractKeywords() {
-                return document.querySelector("h1").textContent;
+                return document.querySelector("h1")?.textContent;
             }
 
-            async function createLink() {
-                const span = document.createElement("span");
-                span.textContent = "Lire sur Europresse";
-                span.className = "premium-message ophirofox-europresse";
-
+            async function injectButton() {
+                if (document.querySelector('.ophirofox-europresse')) return;
+                const reserved = document.querySelector(".typo-p2-paragraph p");
+                if (!reserved || reserved.textContent.trim() !== "Article réservé aux abonnés") return;
                 const a = await ophirofoxEuropresseLink(extractKeywords());
-                a.classList.add("btn", "btn--premium");
-                a.innerHTML = "";
-                a.appendChild(span);
-
-                return a;
+                a.classList.add("ophirofox-europresse", "btn", "relative", "btn-outline", "btn-primary", "btn-sm", "typo-caption-important", "self-start", "px-4", "py-1");
+                reserved.closest(".typo-p2-paragraph").after(a);
             }
 
-            async function onLoad() {
-                const reserve = document.querySelector(".premium-message");
-                if (!reserve) return;
-
-                reserve.parentElement.appendChild(await createLink());
-            }
-
-            onLoad().catch(console.error);
+            const observer = new MutationObserver(() => injectButton().catch(console.error));
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+            injectButton().catch(console.error);
         });
 
         pasteStyle(`
@@ -1630,10 +1636,10 @@
             }
 
             async function onLoad() {
-                const reserve = document.querySelector("main .single__categories .u-icon-32");
+                const reserve = document.querySelector("#poool-paywall");
                 if (!reserve) return;
 
-                const auteurElem = document.querySelector(".single__content__text__published");
+                const auteurElem = document.querySelector(".single__author");
                 if (!auteurElem) return;
 
                 auteurElem.appendChild(await createLink());
@@ -1853,7 +1859,7 @@
 
         window.addEventListener("load", function(event) {
             function extractKeywords() {
-                return document.querySelector("h1").textContent;
+                return document.querySelector('.ap-Title > span:last-of-type').textContent;
             }
 
             async function createLink() {
@@ -1862,11 +1868,10 @@
             }
 
             async function onLoad() {
-                const statusElem = document.getElementsByClassName("ap-PaidPicto");
-                if (statusElem.length == 0) return;
-                statusElem[0].after(await createLink());
+                const statusElem = document.querySelector("body:not(.HOMEPAGE-Page) .ap-PaidPicto");
+                if (statusElem === null) return;
+                statusElem.after(await createLink());
             }
-
 
             onLoad().catch(console.error);
         });
@@ -1876,10 +1881,9 @@
         	margin-left: 0.25em;
         	background-color: #f7b500;
         	border-radius: 0.25rem;
-        	color: #5d3c10 !important;
+        	color: #000 !important;
         	margin-right: 0.25em;
         	font-size: medium;
-        	font-family: Libre Franklin,Helvetica Neue,Helvetica,Arial,sans-serif;
         	vertical-align: middle;
         	line-height: 2.5rem;
         	padding: 0.5rem 1rem 0.2rem;
@@ -2245,7 +2249,7 @@
 
 
             function findPremiumBanner() {
-                const title = document.querySelector(".su-premium-info");
+                const title = document.querySelector(".su-premium.payant");
                 if (!title) return null;
                 const elems = title.parentElement.querySelectorAll("span");
                 return [...elems].find(d => d.textContent.includes("Article premium"))
@@ -2298,7 +2302,7 @@
             }
 
             async function onLoad() {
-                const head = document.querySelector(".article-premium-header");
+                const head = document.querySelector(".badge-premium");
                 if (!head) return;
                 head.appendChild(await createLink());
             }
@@ -2370,12 +2374,8 @@
                 return a;
             }
 
-
             function findPremiumBanner() {
-                const title = document.querySelector(".article-full__media.article__media--premium.ratio-target");
-                if (!title) return null;
-                const elems = title.parentElement.querySelectorAll("span");
-                return [...elems].find(d => d.classList.contains("article--premium__label"))
+                return !!document.querySelector(".article__media--premium");
             }
 
             async function onLoad() {
@@ -2403,7 +2403,6 @@
     if (match(hostname, "https://www.leparisien.fr/*")) {
 
         window.addEventListener("load", function(event) {
-
             function extractKeywords() {
                 return document.querySelector("h1").textContent;
             }
@@ -2420,7 +2419,7 @@
             }
 
             async function onLoad() {
-                const bannerSelector = document.querySelector(".btn-subscribe");
+                const bannerSelector = document.querySelector(".article-section .paywall-abo, .btn-subscribe");
                 if (bannerSelector) {
                     addEuropresseButton();
                 } else {
@@ -2431,7 +2430,11 @@
                         for (const mutation of mutationList) {
                             for (const e of mutation.addedNodes) {
                                 const bannerSelectorString = 'btn-subscribe';
-                                if (e.className == bannerSelectorString) {
+                                if (
+                                    e.classList?.contains(bannerSelectorString) ||
+                                    e.classList?.contains('paywall-abo') ||
+                                    e.querySelector?.('.paywall-abo')
+                                ) {
                                     observer.disconnect();
                                     elementFound = true;
                                     addEuropresseButton();
@@ -2784,30 +2787,41 @@
     if (match(hostname, "https://www.latribune.fr/*")) {
 
         window.addEventListener("load", function(event) {
-            function extractKeywords() {
-                return document.querySelector('h1').textContent;
-            }
-
-            async function createLink() {
-                const a = await ophirofoxEuropresseLink(extractKeywords());
-                a.classList.add();
-                return a;
-            }
-
-            function findPremiumBanner() {
-                const title = document.querySelector('.rev-premium-tag-article-lt__container');
-                if (!title) return null;
-                const elems = title.querySelectorAll('p');
-                return [...elems].find((d) => d.textContent === 'Ce contenu est réservé aux abonnés');
-            }
-
-            async function onLoad() {
-                const premiumBanner = findPremiumBanner();
+            function injectButton() {
+                const banner = document.querySelector('.bg-premium-10');
+                if (!banner) return;
+                if (banner.querySelector('.ophirofox-europresse')) return;
+                const premiumBanner = [...banner.querySelectorAll('p')]
+                    .find(p => p.textContent === 'Ce contenu est réservé aux abonnés');
                 if (!premiumBanner) return;
-                premiumBanner.after(await createLink());
+                ophirofoxEuropresseLink(document.querySelector('h1')?.textContent)
+                    .then(a => premiumBanner.after(a));
             }
 
-            onLoad().catch(console.error);
+            function watchPage(callback) {
+                // Navigation SPA via History API
+                const origPush = history.pushState.bind(history);
+                const origReplace = history.replaceState.bind(history);
+                history.pushState = (...args) => {
+                    origPush(...args);
+                    callback();
+                };
+                history.replaceState = (...args) => {
+                    origReplace(...args);
+                    callback();
+                };
+                window.addEventListener('popstate', callback);
+
+                // MutationObserver pour le rendu dynamique
+                const observer = new MutationObserver(callback);
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            }
+
+            watchPage(() => injectButton());
+            injectButton();
         });
 
         pasteStyle(`
@@ -2873,7 +2887,7 @@
             }
 
             function findPremiumBanner() {
-                const title = document.querySelector('div.header-subscriber');
+                const title = document.querySelector('.tag-premium');
                 if (!title) return null;
                 return title;
             }
@@ -2988,7 +3002,7 @@
 
         window.addEventListener("load", function(event) {
             function extractKeywords() {
-                return document.querySelector("h1").textContent;
+                return document.querySelector(".ap-Title > span:last-of-type").textContent;
             }
 
             async function createLink() {
@@ -2997,12 +3011,13 @@
             }
 
             async function onLoad() {
-                const statusElem = document.getElementsByClassName("ap-PaidPicto");
-                if (statusElem.length == 0) return;
-                statusElem[0].after(await createLink());
+                const statusElem = document.querySelector("body.STORY-Page .ap-PaidPicto");
+                if (statusElem === null) return;
+                statusElem.after(await createLink());
             }
 
             onLoad().catch(console.error);
+
         });
 
         pasteStyle(`
@@ -3024,7 +3039,7 @@
 
         window.addEventListener("load", function(event) {
             function extractKeywords() {
-                return document.querySelector("h1").textContent;
+                return document.querySelector(".ap-Title > span:last-of-type").textContent;
             }
 
             async function createLink() {
@@ -3033,14 +3048,13 @@
             }
 
             async function onLoad() {
-                const statusElem = document.getElementsByClassName("ap-PaidPicto");
-                if (statusElem.length == 0) return;
-                statusElem[0].after(await createLink());
+                const statusElem = document.querySelector("body:not(.HOMEPAGE-Page) .ap-PaidPicto");
+                if (statusElem === null) return;
+                statusElem.after(await createLink());
             }
 
             onLoad().catch(console.error);
 
-            //OK
         });
 
         pasteStyle(`
@@ -3062,7 +3076,7 @@
 
         window.addEventListener("load", function(event) {
             function extractKeywords() {
-                return document.querySelector("h1").textContent;
+                return document.querySelector("header h1").textContent;
             }
 
             async function createLink() {
@@ -3070,15 +3084,8 @@
                 return a;
             }
 
-            function findPremiumBanner() {
-                const title = document.querySelector("h1");
-                if (!title) return null;
-                const elems = title.parentElement.querySelectorAll("span");
-                return [...elems].find(d => d.classList.contains("r-article--payant"));
-            }
-
             async function onLoad() {
-                const premiumBanner = findPremiumBanner();
+                const premiumBanner = document.querySelector('.r-article--payant');
                 if (!premiumBanner) return;
                 premiumBanner.after(await createLink());
             }
@@ -3280,7 +3287,7 @@
 
         window.addEventListener("load", function(event) {
             function extractKeywords() {
-                const titleElem = document.querySelector("h1").childNodes[0];
+                const titleElem = document.querySelector(".c-paywall__header-title");
                 return titleElem && titleElem.textContent;
             }
 
@@ -3288,7 +3295,7 @@
 
             async function addEuropresseButton() {
                 if (!buttonAdded) {
-                    const elt = document.querySelector('.datawall-wrapper .register');
+                    const elt = document.querySelector('.c-paywall__inner form button');
                     if (elt) {
                         const a = await ophirofoxEuropresseLink(extractKeywords());
                         elt.after(a);
@@ -3309,10 +3316,10 @@
                     }
                 };
 
-                const htmlElement = document.querySelector('#paywall-modal');
-                const classState = htmlElement.classList.contains('is-hidden');
+                const paywallModal = document.querySelector('#paywall-modal');
+                const classState = paywallModal.classList.contains('is-hidden');
                 const observer = new MutationObserver(callback);
-                observer.observe(htmlElement, {
+                observer.observe(paywallModal, {
                     attributes: true,
                     subtree: true
                 });
@@ -3348,7 +3355,7 @@
 
             async function addEuropresseButton() {
                 if (!buttonAdded) {
-                    const elt = document.querySelector('.datawall-wrapper .login');
+                    const elt = document.querySelector('.c-paywall__inner form button');
                     if (elt) {
                         const a = await ophirofoxEuropresseLink(extractKeywords());
                         elt.after(a);
@@ -3400,7 +3407,7 @@
 
         window.addEventListener("load", function(event) {
             function extractKeywords() {
-                const titleElem = document.querySelector("h1").childNodes[0];
+                const titleElem = document.querySelector(".c-paywall__header-title");
                 return titleElem && titleElem.textContent;
             }
 
@@ -3408,7 +3415,7 @@
 
             async function addEuropresseButton() {
                 if (!buttonAdded) {
-                    const elt = document.querySelector('.datawall-wrapper .register');
+                    const elt = document.querySelector('.c-paywall__inner form button');
                     if (elt) {
                         const a = await ophirofoxEuropresseLink(extractKeywords());
                         elt.after(a);
@@ -3443,8 +3450,9 @@
 
         pasteStyle(`
         .ophirofox-europresse {
-            display: inline-block;
-            margin-top: 1rem;
+            display: block;
+            width: 9vw;
+            margin: 1rem auto;
             padding: 0.5rem 1.5rem;
             border-radius: 0.3rem;
             background-color: #ffc700;
@@ -3452,6 +3460,7 @@
             font-family: "Aeonik","Publica Slab","Helvetica","Arial",sans-serif;
             font-size: 1.5rem;
             text-decoration: none;
+            text-align: center;
         }
         `);
     }
@@ -3522,59 +3531,22 @@
     if (match(hostname, "https://www.standaard.be/*")) {
 
         window.addEventListener("load", function(event) {
-            let buttonAdded = false;
-            const article_title = document.querySelector('header[data-testid="article-header"] h1');
+            const article_title = document.querySelector('article.premium-content h1');
 
             function extractKeywords() {
                 return article_title.textContent;
             }
 
-            async function createLink(elt) {
-                if (elt && buttonAdded == false) {
-                    const a = await ophirofoxEuropresseLink(extractKeywords());
-                    elt.after(a);
-                    console.log(elt);
-                    if (elt !== article_title) {
-                        //second link is in shadow dom context -> no access to stylesheet
-                        a.style.display = "block"
-                        a.style.width = "35%";
-                        a.style.margin = "0.5rem auto";
-                        a.style.padding = "0.5rem 0";
-                        a.style.borderRadius = "0.3rem";
-                        a.style.backgroundColor = "#ffc700";
-                        a.style.color = "#000";
-                        a.style.textDecoration = "none";
-                        a.style.textAlign = "center";
-                    }
-                }
+            async function createLink() {
+                const a = await ophirofoxEuropresseLink(extractKeywords());
+                return a;
             }
 
             async function onLoad() {
-                const callback = (mutationList, observer) => {
-                    for (const mutation of mutationList) {
-                        if (mutation.type === 'childList') {
-                            for (let node of mutation.addedNodes) {
-                                const paywall_modal = document.querySelector('.PSAPAG_root');
-                                if (paywall_modal) {
-                                    ;
-                                    const shadow_content = document.querySelector('.PSAPAG_root').shadowRoot;
-                                    const modal_content = shadow_content.firstChild.lastChild;
-                                    createLink(article_title);
-                                    createLink(modal_content);
+                const btnPremium = document.querySelector("img[class*='premiumIcon']");
+                if (!btnPremium) return;
 
-                                    buttonAdded = true;
-                                    observer.disconnect();
-                                }
-                            }
-                        }
-                    }
-                };
-
-                const htmlElement = document.querySelector('body');
-                const observer = new MutationObserver(callback);
-                observer.observe(htmlElement, {
-                    childList: true
-                });
+                btnPremium.after(await createLink());
             }
 
             onLoad().catch(console.error);
@@ -3583,13 +3555,13 @@
         pasteStyle(`
         .ophirofox-europresse {
             display: inline-block;
-            margin-top: 1rem;
-            padding: 0.25rem 1rem;
+            margin: 0 0.25rem;
+            padding: 0.25rem 1rem 0 1rem;
             border-radius: 0.3rem;
             background-color: #ffc700 !important;
             color: #000 !important;
-            text-align: center;
             text-decoration: none !important;
+            font-size: 1.3rem;
         }
         `);
     }
@@ -3632,59 +3604,22 @@
     if (match(hostname, "https://www.gva.be/*")) {
 
         window.addEventListener("load", function(event) {
-            let buttonAdded = false;
-            const article_title = document.querySelector('header[data-testid="article-header"] h1');
+            const article_title = document.querySelector('article.premium-content h1');
 
             function extractKeywords() {
                 return article_title.textContent;
             }
 
-            async function createLink(elt) {
-                if (elt && buttonAdded == false) {
-                    const a = await ophirofoxEuropresseLink(extractKeywords());
-                    elt.after(a);
-                    console.log(elt);
-                    if (elt !== article_title) {
-                        //second link is in shadow dom context -> no access to stylesheet
-                        a.style.display = "block"
-                        a.style.width = "35%";
-                        a.style.margin = "0.5rem auto";
-                        a.style.padding = "0.5rem 0";
-                        a.style.borderRadius = "0.3rem";
-                        a.style.backgroundColor = "#ffc700";
-                        a.style.color = "#000";
-                        a.style.textDecoration = "none";
-                        a.style.textAlign = "center";
-                    }
-                }
+            async function createLink() {
+                const a = await ophirofoxEuropresseLink(extractKeywords());
+                return a;
             }
 
             async function onLoad() {
-                const callback = (mutationList, observer) => {
-                    for (const mutation of mutationList) {
-                        if (mutation.type === 'childList') {
-                            for (let node of mutation.addedNodes) {
-                                const paywall_modal = document.querySelector('.PSAPAG_root');
-                                if (paywall_modal) {
-                                    ;
-                                    const shadow_content = document.querySelector('.PSAPAG_root').shadowRoot;
-                                    const modal_content = shadow_content.firstChild.lastChild;
-                                    createLink(article_title);
-                                    createLink(modal_content);
+                const btnPremium = document.querySelector("img[class*='premiumIcon']");
+                if (!btnPremium) return;
 
-                                    buttonAdded = true;
-                                    observer.disconnect();
-                                }
-                            }
-                        }
-                    }
-                };
-
-                const htmlElement = document.querySelector('body');
-                const observer = new MutationObserver(callback);
-                observer.observe(htmlElement, {
-                    childList: true
-                });
+                btnPremium.after(await createLink());
             }
 
             onLoad().catch(console.error);
@@ -3693,13 +3628,13 @@
         pasteStyle(`
         .ophirofox-europresse {
             display: inline-block;
-            margin-top: 1rem;
+            margin: 0 0.5rem;
             padding: 0.25rem 1rem;
             border-radius: 0.3rem;
-            background-color: #ffc700;
+            background-color: #ffc700 !important;
             color: #000 !important;
-            text-align: center;
-            text-decoration: none;
+            text-decoration: none !important;
+            font-size: 1.3rem;
         }
         `);
     }
@@ -3707,59 +3642,22 @@
     if (match(hostname, "https://www.nieuwsblad.be/*")) {
 
         window.addEventListener("load", function(event) {
-            let buttonAdded = false;
-            const article_title = document.querySelector('header[data-testid="article-header"] h1');
+            const article_title = document.querySelector('article.premium-content h1');
 
             function extractKeywords() {
                 return article_title.textContent;
             }
 
-            async function createLink(elt) {
-                if (elt && buttonAdded == false) {
-                    const a = await ophirofoxEuropresseLink(extractKeywords());
-                    elt.after(a);
-                    console.log(elt);
-                    if (elt !== article_title) {
-                        //second link is in shadow dom context -> no access to stylesheet
-                        a.style.display = "block"
-                        a.style.width = "35%";
-                        a.style.margin = "0.5rem auto";
-                        a.style.padding = "0.5rem 0";
-                        a.style.borderRadius = "0.3rem";
-                        a.style.backgroundColor = "#ffc700";
-                        a.style.color = "#000";
-                        a.style.textDecoration = "none";
-                        a.style.textAlign = "center";
-                    }
-                }
+            async function createLink() {
+                const a = await ophirofoxEuropresseLink(extractKeywords());
+                return a;
             }
 
             async function onLoad() {
-                const callback = (mutationList, observer) => {
-                    for (const mutation of mutationList) {
-                        if (mutation.type === 'childList') {
-                            for (let node of mutation.addedNodes) {
-                                const paywall_modal = document.querySelector('.PSAPAG_root');
-                                if (paywall_modal) {
-                                    ;
-                                    const shadow_content = document.querySelector('.PSAPAG_root').shadowRoot;
-                                    const modal_content = shadow_content.firstChild.lastChild;
-                                    createLink(article_title);
-                                    createLink(modal_content);
+                const btnPremium = document.querySelector("img[class*='premiumIcon']");
+                if (!btnPremium) return;
 
-                                    buttonAdded = true;
-                                    observer.disconnect();
-                                }
-                            }
-                        }
-                    }
-                };
-
-                const htmlElement = document.querySelector('body');
-                const observer = new MutationObserver(callback);
-                observer.observe(htmlElement, {
-                    childList: true
-                });
+                btnPremium.after(await createLink());
             }
 
             onLoad().catch(console.error);
@@ -3768,13 +3666,12 @@
         pasteStyle(`
         .ophirofox-europresse {
             display: inline-block;
-            margin-top: 1rem;
+            margin: 0 0.25rem;
             padding: 0.25rem 1rem;
             border-radius: 0.3rem;
             background-color: #ffc700;
             color: #000 !important;
-            text-align: center;
-            text-decoration: none;
+            font-size: 1.2rem;
         }
         `);
     }
@@ -4149,29 +4046,31 @@
 
         window.addEventListener("load", function(event) {
             function extractKeywords() {
-                return document.querySelector(".editoSocialBar__item[data-title]").dataset.title
+                return document.querySelector("h1")?.textContent;
             }
-
             async function createLink() {
                 const a = await ophirofoxEuropresseLink(extractKeywords());
-                a.style = 'font-family: "arimo-bold",Arial,Helvetica,sans-serif; border-bottom: 2px solid #000; margin-left : 1rem'
+                a.style.cssText = `
+        font-family: "arimo-bold",Arial,Helvetica,sans-serif;
+        border-bottom: 2px solid #000;
+        float: right;
+        margin-left: 10px;
+
+        font-weight: 600;
+    `;
                 return a;
             }
 
             function findPremiumBanner() {
-                const div = document.querySelector(".epPayWallTop");
+                const div = document.querySelector(".c-paywall-label");
                 if (!div) return null;
-                console.log('all div', div)
-                console.log('last child', div.lastElementChild)
-                return elem = div.lastElementChild;
+                return div.lastElementChild;
             }
-
             async function onLoad() {
                 const premiumBanner = findPremiumBanner();
                 if (!premiumBanner) return;
                 premiumBanner.after(await createLink());
             }
-
             onLoad().catch(console.error);
         });
 
@@ -4684,6 +4583,41 @@
           padding: 3px 15px;
           border-radius: 2px;
           margin-right: 5px;
+        }
+        `);
+    }
+
+    if (match(hostname, "https://www.lagazettedescommunes.com/*")) {
+
+        window.addEventListener("load", function(event) {
+            function extractKeywords() {
+                return document.querySelector("h1").textContent;
+            }
+
+            async function createLink() {
+                const a = await ophirofoxEuropresseLink(extractKeywords());
+                a.classList.add("buttonTypeA", "buttonTypeA--1");
+                return a;
+            }
+
+            function findPremiumBanner() {
+                const title = document.querySelector("h1");
+                if (!title) return null;
+                return title.parentElement.querySelector(".notYet") ? title : null;
+            }
+
+            async function onLoad() {
+                const premiumBanner = findPremiumBanner();
+                if (!premiumBanner) return;
+                premiumBanner.after(await createLink());
+            }
+
+            onLoad().catch(console.error);
+        });
+
+        pasteStyle(`
+        .ophirofox-europresse {
+            line-height: 50px;
         }
         `);
     }
